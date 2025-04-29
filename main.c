@@ -6,7 +6,7 @@
 /*   By: jait-chd <jait-chd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 21:09:15 by jait-chd          #+#    #+#             */
-/*   Updated: 2025/04/29 18:10:04 by jait-chd         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:56:46 by jait-chd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,10 +227,13 @@ static void	execute_cmd(char *cmd, char *env[])
 	char	**paths;
 	char	*path;
 
+	int pid = fork();
 	int (i), (ernoaccess), (flag);
 	i = 0;
 	flag = 0;
-       	ernoaccess = 1;
+    ernoaccess = 1;
+	if(pid == 0) 
+		{
 	(cmdd = ft_split(cmd, ' '), paths = cut_paths(env));
 	while (paths[i])
 	{
@@ -239,7 +242,7 @@ static void	execute_cmd(char *cmd, char *env[])
 		{
 			if (execve(path, cmdd, NULL) == -1)
 				perror("ERROR in execve func");
-			exit(EXIT_FAILURE);
+			 exit(EXIT_FAILURE);
 		}
 
 		if(flag == 0 && errno != 2)
@@ -247,17 +250,21 @@ static void	execute_cmd(char *cmd, char *env[])
 		(free(path), i++);
 	}
 	(perror(cmdd[0]), ft_freee(cmdd), ft_freee(paths));
+	exit(0);
+	}
+	/*
 	if(ernoaccess == 13)
 		exit(126);
 	else
 		exit(127);
-}
+*/
+	}
 
-void pars_args(int counter , char **vectors , char  **env) 
-{
+// void pars_args(int counter , char **vectors , char  **env) 
+// {
 
-	char **args = ft_split()
-}
+// 	char **args = ft_split()
+// }
 
 
 int main(int counter , char **vectors , char **env)
@@ -268,18 +275,15 @@ int main(int counter , char **vectors , char **env)
         (write(2,"No such file or directory\n",27)) , (exit(127));
     
     char *readline1;
-	char *readline2;
-      char* cwd;	
-    char buff[1];
-	cwd = getcwd( buff, 1 );
-	while(1)  { 
-      	readline1 = readline("crounshell:~$ ");	
+	while(1)  
+	{ 
+		readline1 = readline("crounshell:~$ ");	
+		execute_cmd(readline1 , env);
 		if(strcmp(readline1 , "exit") == 0) 	
 			exit(0);
 		if(strcmp(readline1, "env") == 0)	
-			builtin_env(env);
-		}
+		builtin_env(env);
 		add_history(readline1);
+		}
 		return (0);
 }
-
