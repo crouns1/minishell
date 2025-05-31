@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jait-chd <jait-chd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jait-chd <jait-chd@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:43:49 by jait-chd          #+#    #+#             */
-/*   Updated: 2025/04/30 21:43:51 by jait-chd         ###   ########.fr       */
+/*   Updated: 2025/05/31 09:46:22 by jait-chd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@
 #include <stdlib.h>
 #include<readline/history.h>
 #include <fcntl.h>
-#include <errno.h>
+#include <sys/wait.h>
+#define MAX_TKEN 1000
+
+#define HEREDOC 'H'
+#define APPEND 'A'
+#define PIPE '|'
+#define RED_IN '>'
+#define RED_OUT '<'
 
 char	**ft_split(char const *s, char c);
 void	execute_cmd(char *cmd, char *env[]);
@@ -30,5 +37,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 void builtin_env(char **env);
 void built_in_exit(void) ;
+void piping(char *cmd1 , char **env);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_bin_sbin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jait-chd <jait-chd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jait-chd <jait-chd@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:43:33 by jait-chd          #+#    #+#             */
-/*   Updated: 2025/04/30 21:49:54 by jait-chd         ###   ########.fr       */
+/*   Updated: 2025/05/31 09:23:33 by jait-chd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	execute_cmd(char *cmd, char *env[])
 
 	if(pid == 0) 
 		{
-	(cmdd = ft_split(cmd, ' '), paths = cut_paths(env));
+	cmdd = ft_split(cmd, ' ');
+	paths = cut_paths(env);
 	while (paths[i])
 	{
 		path = jo_in(paths[i], '/', cmdd[0]);
@@ -80,4 +81,42 @@ void	execute_cmd(char *cmd, char *env[])
 	}
 	exit(0);
 	}
+}
+void piping(char *cmd1, char **env) {
+	char **cmds = ft_split(cmd1, '|');
+	if (!cmds || !cmds[0] || !cmds[1]) {
+		execute_cmd(cmd1, env); 
+		return;
 	}
+
+	int fd[2];
+	if (pipe(fd) == -1)
+	{
+		perror("pipe");
+		return;
+	}
+	pid_t pid1 = fork();
+	if (pid1 == 0) 
+	{
+		dup2(fd[1], 1);
+		close(fd[0]);
+		close(fd[1]);
+		execute_cmd(cmds[0], env);
+		exit(1);
+	}
+
+	pid_t pid2 = fork();
+	if (pid2 == 0) 
+	{
+		dup2(fd[0], 0);
+		close(fd[0]);
+		close(fd[1]);
+		execute_cmd(cmds[1], env);
+		exit(1);
+	}
+
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+}
