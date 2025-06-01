@@ -6,7 +6,7 @@
 /*   By: jait-chd <jait-chd@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:43:49 by jait-chd          #+#    #+#             */
-/*   Updated: 2025/05/31 09:46:22 by jait-chd         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:01:27 by jait-chd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@
 #include <sys/wait.h>
 #define MAX_TKEN 1000
 
-#define HEREDOC 'H'
-#define APPEND 'A'
-#define PIPE '|'
-#define RED_IN '>'
-#define RED_OUT '<'
+
 
 char	**ft_split(char const *s, char c);
 void	execute_cmd(char *cmd, char *env[]);

@@ -6,7 +6,7 @@
 /*   By: jait-chd <jait-chd@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 21:43:33 by jait-chd          #+#    #+#             */
-/*   Updated: 2025/05/31 09:23:33 by jait-chd         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:10:54 by jait-chd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ void	execute_cmd(char *cmd, char *env[])
 	exit(0);
 	}
 }
-void piping(char *cmd1, char **env) {
-	char **cmds = ft_split(cmd1, '|');
+void piping(char *cmd, char **env) {
+	char **cmds = ft_split(cmd, '|');
 	if (!cmds || !cmds[0] || !cmds[1]) {
-		execute_cmd(cmd1, env); 
+		execute_cmd(cmd, env); 
 		return;
 	}
 
